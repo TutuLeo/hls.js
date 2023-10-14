@@ -7,7 +7,11 @@ import { getRetryDelay, isTimeoutError } from '../utils/error-helper';
 import { NetworkErrorAction } from './error-controller';
 import { logger } from '../utils/logger';
 import type { LevelDetails } from '../loader/level-details';
-import type { MediaPlaylist } from '../types/media-playlist';
+import type {
+  AudioSelectionOption,
+  MediaPlaylist,
+  SubtitleSelectionOption,
+} from '../types/media-playlist';
 import type {
   AudioTrackLoadedData,
   LevelLoadedData,
@@ -346,5 +350,48 @@ export default class BasePlaylistController implements NetworkComponentAPI {
       errorAction.resolved = true;
     }
     return retry;
+  }
+
+  protected findMatchingOption(
+    option: MediaPlaylist | AudioSelectionOption | SubtitleSelectionOption,
+    tracks: MediaPlaylist[],
+    matchPredicate?: (
+      option: MediaPlaylist | AudioSelectionOption | SubtitleSelectionOption,
+      track: MediaPlaylist,
+    ) => boolean,
+  ): number {
+    if ('attrs' in option) {
+      const index = tracks.indexOf(option);
+      if (index !== -1) {
+        return index;
+      }
+    }
+    for (let i = 0; i < tracks.length; i++) {
+      const track = tracks[i];
+      if (this.matchesOption(option, track, matchPredicate)) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  protected matchesOption(
+    option: MediaPlaylist | AudioSelectionOption | SubtitleSelectionOption,
+    track: MediaPlaylist,
+    matchPredicate?: (
+      option: MediaPlaylist | AudioSelectionOption | SubtitleSelectionOption,
+      track: MediaPlaylist,
+    ) => boolean,
+  ): boolean {
+    const { groupId, name, lang, assocLang, characteristics } = option;
+    return (
+      (groupId === undefined || track.groupId === groupId) &&
+      (name === undefined || track.name === name) &&
+      (lang === undefined || track.lang === lang) &&
+      (lang === undefined || track.assocLang === assocLang) &&
+      (characteristics === undefined ||
+        track.characteristics === characteristics) && // TODO: characteristics can be list
+      (matchPredicate === undefined || matchPredicate(option, track))
+    );
   }
 }

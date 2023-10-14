@@ -318,6 +318,7 @@ export default class M3U8Parser {
           ]);
         }
         const lang = attrs.LANGUAGE;
+        const assocLang = attrs['ASSOC-LANGUAGE'];
         const channels = attrs.CHANNELS;
         const characteristics = attrs.CHARACTERISTICS;
         const instreamId = attrs['INSTREAM-ID'];
@@ -331,9 +332,12 @@ export default class M3U8Parser {
           default: attrs.bool('DEFAULT'),
           autoselect: attrs.bool('AUTOSELECT'),
           forced: attrs.bool('FORCED'),
-          lang: lang,
+          lang,
           url: attrs.URI ? M3U8Parser.resolve(attrs.URI, baseurl) : '',
         };
+        if (assocLang) {
+          media.assocLang = assocLang;
+        }
         if (channels) {
           media.channels = channels;
         }
