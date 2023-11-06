@@ -203,6 +203,8 @@ export default class LevelController extends BasePlaylistController {
       },
     );
 
+    console.log('1',levels)
+
     // remove audio-only and invalid video-range levels if we also have levels with video codecs or RESOLUTION signalled
     if ((resolutionFound || videoCodecFound) && audioCodecFound) {
       levels = levels.filter(
@@ -210,6 +212,8 @@ export default class LevelController extends BasePlaylistController {
           (!!videoCodec || !!(width && height)) && isVideoRange(videoRange),
       );
     }
+
+    console.log('2',levels)
 
     if (levels.length === 0) {
       // Dispatch error after MANIFEST_LOADED is done propagating
