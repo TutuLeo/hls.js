@@ -179,6 +179,13 @@ export default class LevelController extends BasePlaylistController {
     let videoCodecFound = false;
     let audioCodecFound = false;
 
+    console.log(
+      '0',
+      unfilteredLevels,
+      unfilteredLevels.length,
+      JSON.stringify(unfilteredLevels),
+    );
+
     // only keep levels with supported audio/video codecs
     let levels = unfilteredLevels.filter(
       ({ audioCodec, videoCodec, width, height, unknownCodecs }) => {
@@ -203,7 +210,7 @@ export default class LevelController extends BasePlaylistController {
       },
     );
 
-    console.log('1',levels)
+    console.log('1', levels, levels.length, JSON.stringify(levels));
 
     // remove audio-only and invalid video-range levels if we also have levels with video codecs or RESOLUTION signalled
     if ((resolutionFound || videoCodecFound) && audioCodecFound) {
@@ -213,7 +220,7 @@ export default class LevelController extends BasePlaylistController {
       );
     }
 
-    console.log('2',levels)
+    console.log('2', levels, levels.length, JSON.stringify(levels));
 
     if (levels.length === 0) {
       // Dispatch error after MANIFEST_LOADED is done propagating

@@ -1,7 +1,7 @@
 {
   "name": "@tuturuleo/hls.js",
   "license": "MIT",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "description": "JavaScript HLS client using MediaSourceExtension",
   "homepage": "https://github.com/video-dev/hls.js",
   "authors": "Guillaume du Pontavice <g.du.pontavice@gmail.com>",
