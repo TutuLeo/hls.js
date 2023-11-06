@@ -1,5 +1,5 @@
 {
-  "name": "hls.js",
+  "name": "@TutuLeo/hls.js",
   "license": "Apache-2.0",
   "version": "0.0.1",
   "description": "JavaScript HLS client using MediaSourceExtension",
